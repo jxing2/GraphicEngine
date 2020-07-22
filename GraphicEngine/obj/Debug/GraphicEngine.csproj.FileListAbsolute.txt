@@ -1,9 +1,0 @@
-C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngine\bin\Debug\GraphicEngine.dll
-C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngine\bin\Debug\GraphicEngine.pdb
-C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngine\bin\Debug\AspectInjector.Broker.dll
-C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngine\bin\Debug\AspectInjector.Broker.xml
-C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngine\obj\Debug\GraphicEngine.csprojAssemblyReference.cache
-C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngine\obj\Debug\GraphicEngine.csproj.CoreCompileInputs.cache
-C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngine\obj\Debug\GraphicEngine.csproj.CopyComplete
-C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngine\obj\Debug\GraphicEngine.dll
-C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngine\obj\Debug\GraphicEngine.pdb
