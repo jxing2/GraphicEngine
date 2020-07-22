@@ -30,3 +30,6 @@
 /Starter/StartVisionSelector/obj/Release
 /OutputDll - Test
 /OutputDll -Test
+.vs/
+/**/Debug
+/**/Release
