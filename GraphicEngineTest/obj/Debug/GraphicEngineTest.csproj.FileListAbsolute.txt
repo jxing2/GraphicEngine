@@ -1,0 +1,17 @@
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\obj\Debug\GraphicEngineTest.csprojAssemblyReference.cache
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\obj\Debug\GraphicEngineTest.Form1.resources
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\obj\Debug\GraphicEngineTest.Properties.Resources.resources
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\obj\Debug\GraphicEngineTest.csproj.GenerateResource.cache
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\obj\Debug\GraphicEngineTest.csproj.CoreCompileInputs.cache
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\bin\Debug\GraphicEngineTest.exe.config
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\bin\Debug\GraphicEngineTest.exe
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\bin\Debug\GraphicEngineTest.pdb
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\bin\Debug\GraphicEngine.dll
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\bin\Debug\AspectInjector.Broker.dll
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\bin\Debug\GraphicEngine.pdb
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\bin\Debug\AspectInjector.Broker.xml
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\obj\Debug\GraphicEngineTest.csproj.CopyComplete
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\obj\Debug\GraphicEngineTest.exe
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\obj\Debug\GraphicEngineTest.pdb
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\bin\Debug\PaintPanel.dll
+C:\Users\Administrator\source\repos\GraphicEngine\GraphicEngineTest\bin\Debug\PaintPanel.pdb
