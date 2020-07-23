@@ -17,10 +17,16 @@ namespace GraphicEngine
         
         Graphics g;
 
+        BufferedGraphicsContext ctx;
+        BufferedGraphics graphBuffer;
+        Bitmap bitmap;
+
         public Canvas(Graphics g, Color ForeColor) {
             this.ForeColor = ForeColor;
             this.g = g;
-            
+            bitmap = new Bitmap(700, 700);
+
+
         }
 
         ArrayList drawingObjects = new ArrayList();
@@ -38,9 +44,8 @@ namespace GraphicEngine
         }
 
         public void Draw() {
-            //g.Clear(ForeColor);
-            Bitmap bitmap = new Bitmap(700, 700);
             var tmpG = Graphics.FromImage(bitmap);
+            tmpG.Clear(ForeColor);
             MoveTmpToNormal();
             foreach (BaseDrawingObject obj in drawingObjects)
             {
@@ -50,7 +55,7 @@ namespace GraphicEngine
             BufferedGraphicsContext ctx = new BufferedGraphicsContext();
             BufferedGraphics graphBuffer = ctx.Allocate(g, new Rectangle(0, 0, 700, 700));
             Graphics diaplayGraphic = graphBuffer.Graphics;
-            diaplayGraphic.Clear(ForeColor);
+            //diaplayGraphic.Clear(ForeColor);
             diaplayGraphic.DrawImage(bitmap, 0, 0);
             graphBuffer.Render();
             graphBuffer.Dispose();

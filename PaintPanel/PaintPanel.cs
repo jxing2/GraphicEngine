@@ -79,6 +79,7 @@ namespace PaintPanel
             }
             catch (Exception ex)
             {
+                //MessageBox.Show(string.Format("{0}\n{1}\n", ex.Message, ex.StackTrace));
                 //File.AppendAllText(@"D://error.txt", string.Format("{0}\n{1}\n", ex.Message, ex.StackTrace));
             }
         }
