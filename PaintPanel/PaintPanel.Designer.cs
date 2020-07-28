@@ -48,6 +48,7 @@
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PaintPanel_MouseClick);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.PaintPanel_MouseDoubleClick);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintPanel_MouseMove);
+            this.Resize += new System.EventHandler(this.PaintPanel_Resize);
             this.ResumeLayout(false);
 
         }

@@ -23,12 +23,15 @@ namespace GraphicEngine
         Bitmap bitmap;
         public Matrix matrix ;
 
+        public int Width { get; set; }
+        public int Height { get; set; }
+
         public Canvas(Graphics g, Color ForeColor) {
             this.ForeColor = ForeColor;
             this.g = g;
-            bitmap = new Bitmap(700, 700);
-
-
+            Height = 700;
+            Width = 700;
+            bitmap = new Bitmap(Width, Height);
         }
 
         ArrayList drawingObjects = new ArrayList();
@@ -59,7 +62,7 @@ namespace GraphicEngine
             }
             
             BufferedGraphicsContext ctx = new BufferedGraphicsContext();
-            BufferedGraphics graphBuffer = ctx.Allocate(g, new Rectangle(0, 0, 700, 700));
+            BufferedGraphics graphBuffer = ctx.Allocate(g, new Rectangle(0, 0, Width, Height));
             Graphics diaplayGraphic = graphBuffer.Graphics;
             //diaplayGraphic.Clear(ForeColor);
             //if (matrix != null)
@@ -72,6 +75,13 @@ namespace GraphicEngine
             graphBuffer.Dispose();
             ctx.Invalidate();
             ctx.Dispose();
+        }
+
+        public void Resize(int width, int height)
+        {
+            this.Width = width;
+            this.Height = height;
+            bitmap = new Bitmap(this.Width, this.Height);
         }
     }
 }

@@ -111,17 +111,10 @@ namespace PaintPanel
                 if (matrix.IsInvertible)
                     matrix.Invert();
             }
-            Point p = new Point(e.X, e.Y);
-            Point[] ps = new Point[1];
-            ps[0] = p;
-            matrix.TransformPoints(ps);
             if (e.Button == MouseButtons.Left)
             {
                 if (currentDrawingObj == null && inputTmp != null)
                 {
-                    //inputTmp.X = ps[0].X;
-                    //inputTmp.Y = ps[0].Y;
-
                     inputTmp.X = e.X;
                     inputTmp.Y = e.Y;
                     inputTmp.matrix = matrix;
@@ -177,6 +170,11 @@ namespace PaintPanel
         public Matrix GetMatrix()
         {
             return canvas.matrix;
+        }
+
+        private void PaintPanel_Resize(object sender, EventArgs e)
+        {
+            canvas.Resize(this.Width, this.Height);
         }
     }
 }

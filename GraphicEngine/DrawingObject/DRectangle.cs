@@ -34,7 +34,22 @@ namespace GraphicEngine.DrawingObject
             else if (matrix != null) {
                 graphics.Transform = matrix;
             }
-            graphics.FillRectangle(MyBrush, X, Y, Width, Height);
+            if(Width < 0 && Height < 0)
+            {
+                graphics.FillRectangle(MyBrush, X + Width, Height + Y, -Width, -Height);
+            }
+            else if (Width < 0)
+            {
+                graphics.FillRectangle(MyBrush, X + Width, Y, -Width, Height);
+            }
+            else if (Height < 0)
+            {
+                graphics.FillRectangle(MyBrush, X , Height + Y, Width, -Height);
+            }
+            else
+            {
+                graphics.FillRectangle(MyBrush, X, Y, Width, Height);
+            }
             graphics.ResetTransform();
         }
 
