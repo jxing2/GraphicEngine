@@ -98,5 +98,33 @@ namespace GraphicEngineTest
             };
             paintPanel1.inputTmp = path;
         }
+
+        private void bt_rotate_Click(object sender, EventArgs e)
+        {
+            string rotate_str = tb_rotate.Text;
+            string rotate_x_str = tb_rotate_x.Text;
+            string rotate_y_str = tb_rotate_y.Text;
+            int rotate = int.Parse(rotate_str);
+            int rotate_x = int.Parse(rotate_x_str);
+            int rotate_y = int.Parse(rotate_y_str);
+            var matrix = paintPanel1.GetMatrix();
+            if (matrix == null)
+                matrix = new System.Drawing.Drawing2D.Matrix();
+            matrix.RotateAt(rotate, new PointF(rotate_x, rotate_y));
+            paintPanel1.SetMatrix(matrix);
+        }
+
+        private void bt_scale_Click(object sender, EventArgs e)
+        {
+            string scale_x_str = tb_scale_x.Text;
+            string scale_y_str = tb_scale_y.Text;
+            float scale_x = int.Parse(scale_x_str);
+            float scale_y = int.Parse(scale_y_str);
+            var matrix = paintPanel1.GetMatrix();
+            if (matrix == null)
+                matrix = new System.Drawing.Drawing2D.Matrix();
+            matrix.Scale(scale_x/100, scale_y/100);
+            paintPanel1.SetMatrix(matrix);
+        }
     }
 }

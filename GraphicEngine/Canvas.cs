@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -20,6 +21,7 @@ namespace GraphicEngine
         BufferedGraphicsContext ctx;
         BufferedGraphics graphBuffer;
         Bitmap bitmap;
+        public Matrix matrix ;
 
         public Canvas(Graphics g, Color ForeColor) {
             this.ForeColor = ForeColor;
@@ -47,16 +49,25 @@ namespace GraphicEngine
             var tmpG = Graphics.FromImage(bitmap);
             tmpG.Clear(ForeColor);
             MoveTmpToNormal();
+            
+            tmpG.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             foreach (BaseDrawingObject obj in drawingObjects)
             {
-                tmpG.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                obj.Draw(tmpG);
+                if (matrix != null)
+                    tmpG.Transform = matrix;
+                obj.Draw(tmpG, matrix);
             }
+            
             BufferedGraphicsContext ctx = new BufferedGraphicsContext();
             BufferedGraphics graphBuffer = ctx.Allocate(g, new Rectangle(0, 0, 700, 700));
             Graphics diaplayGraphic = graphBuffer.Graphics;
             //diaplayGraphic.Clear(ForeColor);
+            //if (matrix != null)
+            //    diaplayGraphic.Transform = matrix;
+            diaplayGraphic.Clear(ForeColor);
             diaplayGraphic.DrawImage(bitmap, 0, 0);
+            
+            
             graphBuffer.Render();
             graphBuffer.Dispose();
             ctx.Invalidate();

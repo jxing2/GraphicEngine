@@ -13,6 +13,7 @@ using System.Threading;
 using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.IO;
+using System.Drawing.Drawing2D;
 
 namespace PaintPanel
 {
@@ -103,12 +104,27 @@ namespace PaintPanel
 
         private void PaintPanel_MouseClick(object sender, MouseEventArgs e)
         {
+            Matrix matrix = new Matrix();
+            if (canvas.matrix != null)
+            {
+                matrix = canvas.matrix.Clone();
+                if (matrix.IsInvertible)
+                    matrix.Invert();
+            }
+            Point p = new Point(e.X, e.Y);
+            Point[] ps = new Point[1];
+            ps[0] = p;
+            matrix.TransformPoints(ps);
             if (e.Button == MouseButtons.Left)
             {
                 if (currentDrawingObj == null && inputTmp != null)
                 {
+                    //inputTmp.X = ps[0].X;
+                    //inputTmp.Y = ps[0].Y;
+
                     inputTmp.X = e.X;
                     inputTmp.Y = e.Y;
+                    inputTmp.matrix = matrix;
                     canvas.AddDrawingObject(inputTmp);
                     currentDrawingObj = inputTmp;
                     inputTmp = null;
@@ -154,6 +170,13 @@ namespace PaintPanel
             //canvas.Draw();
         }
 
-
+        public void SetMatrix(Matrix matrix)
+        {
+            canvas.matrix = matrix;
+        }
+        public Matrix GetMatrix()
+        {
+            return canvas.matrix;
+        }
     }
 }

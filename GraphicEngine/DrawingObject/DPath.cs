@@ -25,10 +25,22 @@ namespace GraphicEngine.DrawingObject
         /// 
         /// </summary>
         /// <param name="graphics"></param>
-        public override void Draw(Graphics graphics)
+        public override void Draw(Graphics graphics, Matrix mtx)
         {
-            if (matrix != null)
+            if (matrix != null && mtx != null)
+            {
+                var tmpMatrix = matrix.Clone();
+                tmpMatrix.Multiply(mtx, MatrixOrder.Prepend);
+                graphics.Transform = tmpMatrix;
+            }
+            else if (mtx != null)
+            {
+                graphics.Transform = mtx;
+            }
+            else if (matrix != null)
+            {
                 graphics.Transform = matrix;
+            }
             if (MyPath == null) {
                 MyPath = new GraphicsPath();
             }

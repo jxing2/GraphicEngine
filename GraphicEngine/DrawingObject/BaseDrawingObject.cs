@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +23,7 @@ namespace GraphicEngine.DrawingObject
         /// 正常绘图
         /// </summary>
         /// <param name="graphics"></param>
-        public abstract void Draw(Graphics graphics);
+        public abstract void Draw(Graphics graphics, Matrix mtx);
 
         /// <summary>
         /// 绘图(在鼠标移动中)
