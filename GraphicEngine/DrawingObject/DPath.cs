@@ -17,7 +17,7 @@ namespace GraphicEngine.DrawingObject
         private bool hasConfirmed = false;
         public GraphicsPath MyPath { get; set; }
 
-
+        
 
 
 
@@ -103,6 +103,11 @@ namespace GraphicEngine.DrawingObject
 
         private void initPointsStack() {
             points.Push(new Point(X, Y));
+        }
+
+        public override bool IsContain(Point point)
+        {
+            throw new NotImplementedException();
         }
     }
 }

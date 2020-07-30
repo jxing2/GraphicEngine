@@ -42,5 +42,10 @@ namespace GraphicEngine.DrawingObject
             X = point.X;
             Y = point.Y;
         }
+
+        public override bool IsContain(Point point)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

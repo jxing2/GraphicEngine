@@ -126,5 +126,18 @@ namespace GraphicEngineTest
             matrix.Scale(scale_x/100, scale_y/100);
             paintPanel1.SetMatrix(matrix);
         }
+
+        private void bt_all_move_Click(object sender, EventArgs e)
+        {
+            string move_x_str = tb_all_move_x.Text;
+            string move_y_str = tb_all_move_y.Text;
+            float move_x = int.Parse(move_x_str);
+            float move_y = int.Parse(move_y_str);
+            var matrix = paintPanel1.GetMatrix();
+            if (matrix == null)
+                matrix = new System.Drawing.Drawing2D.Matrix();
+            matrix.Translate(move_x, move_y);
+            paintPanel1.SetMatrix(matrix);
+        }
     }
 }

@@ -16,6 +16,8 @@ namespace GraphicEngine.DrawingObject
         public Brush MyBrush { get; set; }
         public int Z { get; set; }
 
+        public bool Selected { get; set; }
+
         public System.Drawing.Drawing2D.Matrix matrix { get; set; }
 
 
@@ -31,6 +33,14 @@ namespace GraphicEngine.DrawingObject
         /// <param name="graphics"></param>
         /// <param name="point"></param>
         public abstract void DrawOnMove(Point point);
+
+
+        /// <summary>
+        /// 是否点落在图形上
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public abstract bool IsContain(Point point);
 
     }
 }

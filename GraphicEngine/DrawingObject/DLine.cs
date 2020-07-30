@@ -34,13 +34,25 @@ namespace GraphicEngine.DrawingObject
                 MyPen = new Pen(MyBrush);
             }
             graphics.DrawLine(MyPen, X, Y, X2, Y2);
+            if (Selected)
+            {
+                graphics.DrawEllipse(MyPen, X - 1, Y - 1, 2, 2);
+                graphics.DrawEllipse(MyPen, X2 - 1, Y2 - 1, 2, 2);
+            }
             graphics.ResetTransform();
         }
+
+
 
         public override void DrawOnMove(Point point)
         {
             X2 = point.X;
             Y2 = point.Y;
+        }
+
+        public override bool IsContain(Point point)
+        {
+            throw new NotImplementedException();
         }
     }
 }

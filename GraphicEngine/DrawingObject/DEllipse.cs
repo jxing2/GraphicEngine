@@ -55,5 +55,10 @@ namespace GraphicEngine.DrawingObject
             Width = point.X - X;
             Height = point.Y - Y;
         }
+
+        public override bool IsContain(Point point)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

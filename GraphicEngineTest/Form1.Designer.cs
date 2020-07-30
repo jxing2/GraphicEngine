@@ -48,6 +48,11 @@
             this.bt_rect = new System.Windows.Forms.Button();
             this.bt_ellipse = new System.Windows.Forms.Button();
             this.paintPanel1 = new PaintPanel.PaintPanel();
+            this.bt_all_move = new System.Windows.Forms.Button();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.tb_all_move_x = new System.Windows.Forms.TextBox();
+            this.tb_all_move_y = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -62,13 +67,18 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this.bt_all_move);
+            this.splitContainer1.Panel1.Controls.Add(this.label6);
             this.splitContainer1.Panel1.Controls.Add(this.label4);
             this.splitContainer1.Panel1.Controls.Add(this.label2);
+            this.splitContainer1.Panel1.Controls.Add(this.label5);
             this.splitContainer1.Panel1.Controls.Add(this.label3);
             this.splitContainer1.Panel1.Controls.Add(this.label1);
             this.splitContainer1.Panel1.Controls.Add(this.tb_rotate_y);
             this.splitContainer1.Panel1.Controls.Add(this.tb_rotate_x);
             this.splitContainer1.Panel1.Controls.Add(this.bt_scale);
+            this.splitContainer1.Panel1.Controls.Add(this.tb_all_move_x);
+            this.splitContainer1.Panel1.Controls.Add(this.tb_all_move_y);
             this.splitContainer1.Panel1.Controls.Add(this.tb_scale_x);
             this.splitContainer1.Panel1.Controls.Add(this.tb_scale_y);
             this.splitContainer1.Panel1.Controls.Add(this.bt_rotate);
@@ -260,6 +270,50 @@
             this.paintPanel1.TabIndex = 0;
             this.paintPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.paintPanel1_MouseClick);
             // 
+            // bt_all_move
+            // 
+            this.bt_all_move.Location = new System.Drawing.Point(209, 496);
+            this.bt_all_move.Name = "bt_all_move";
+            this.bt_all_move.Size = new System.Drawing.Size(75, 23);
+            this.bt_all_move.TabIndex = 15;
+            this.bt_all_move.Text = "Move";
+            this.bt_all_move.UseVisualStyleBackColor = true;
+            this.bt_all_move.Click += new System.EventHandler(this.bt_all_move_Click);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 501);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(17, 12);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "X:";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(115, 501);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(17, 12);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Y:";
+            // 
+            // tb_all_move_x
+            // 
+            this.tb_all_move_x.Location = new System.Drawing.Point(38, 498);
+            this.tb_all_move_x.Name = "tb_all_move_x";
+            this.tb_all_move_x.Size = new System.Drawing.Size(65, 21);
+            this.tb_all_move_x.TabIndex = 10;
+            this.tb_all_move_x.Text = "20";
+            // 
+            // tb_all_move_y
+            // 
+            this.tb_all_move_y.Location = new System.Drawing.Point(138, 498);
+            this.tb_all_move_y.Name = "tb_all_move_y";
+            this.tb_all_move_y.Size = new System.Drawing.Size(65, 21);
+            this.tb_all_move_y.TabIndex = 10;
+            this.tb_all_move_y.Text = "20";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -299,6 +353,11 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tb_scale_x;
+        private System.Windows.Forms.Button bt_all_move;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox tb_all_move_x;
+        private System.Windows.Forms.TextBox tb_all_move_y;
     }
 }
 
