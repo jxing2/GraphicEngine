@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,8 +15,8 @@ namespace GraphicEngineTest
 {
     public partial class Form1 : Form
     {
-        Canvas canvas = null;
-        BaseDrawingObject currentDrawingObj = null;
+        GraphScene canvas = null;
+        GraphItem currentDrawingObj = null;
         public Form1()
         {
             InitializeComponent();
@@ -133,11 +134,20 @@ namespace GraphicEngineTest
             string move_y_str = tb_all_move_y.Text;
             float move_x = int.Parse(move_x_str);
             float move_y = int.Parse(move_y_str);
-            var matrix = paintPanel1.GetMatrix();
+            var newM = new Matrix();
+            newM.Translate(move_x, move_y);
+            var matrix = paintPanel1.GetMatrix().Clone();
+            var matrix1 = paintPanel1.GetMatrix().Clone();
             if (matrix == null)
-                matrix = new System.Drawing.Drawing2D.Matrix();
-            matrix.Translate(move_x, move_y);
-            paintPanel1.SetMatrix(matrix);
+            {
+                matrix = new Matrix();
+                matrix1 = new Matrix();
+            }
+            matrix.Invert();
+            newM.Multiply(matrix, MatrixOrder.Prepend);
+            matrix1.Multiply(newM);
+            //matrix.Multiply(newM, MatrixOrder.Prepend);
+            paintPanel1.SetMatrix(newM);
         }
     }
 }

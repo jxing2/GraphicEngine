@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace GraphicEngine.DrawingObject
 {
-    public class DLine : BaseDrawingObject
+    public class DLine : GraphItem
     {
 
         public int X2 { get; set; }
         public int Y2 { get; set; }
 
-        public override void Draw(Graphics graphics, Matrix mtx)
+        internal override void OnDraw(Graphics graphics, Matrix mtx)
         {
             if (matrix != null && mtx != null)
             {
                 var tmpMatrix = matrix.Clone();
-                tmpMatrix.Multiply(mtx, MatrixOrder.Prepend);
+                tmpMatrix.Multiply(mtx, MatrixOrder.Append);
                 graphics.Transform = tmpMatrix;
             }
             else if (mtx != null)
@@ -39,7 +39,6 @@ namespace GraphicEngine.DrawingObject
                 graphics.DrawEllipse(MyPen, X - 1, Y - 1, 2, 2);
                 graphics.DrawEllipse(MyPen, X2 - 1, Y2 - 1, 2, 2);
             }
-            graphics.ResetTransform();
         }
 
 

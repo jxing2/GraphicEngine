@@ -17,10 +17,10 @@ using System.Drawing.Drawing2D;
 
 namespace PaintPanel
 {
-    public partial class PaintPanel : UserControl
+    public partial class GraphView : UserControl
     {
-        Canvas canvas = null;
-        BaseDrawingObject currentDrawingObj = null;
+        GraphScene canvas = null;
+        GraphItem currentDrawingObj = null;
         DText fpsTxt = new DText
         {
             MyFont = new Font("宋体", 10F),
@@ -32,12 +32,12 @@ namespace PaintPanel
         Thread childThread = null;
         //volatile int fps = 0;
 
-        public BaseDrawingObject inputTmp = null;
+        public GraphItem inputTmp = null;
 
         [DllImport("psapi.dll")]
         private static extern int EmptyWorkingSet(int hProcess);
 
-        public PaintPanel()
+        public GraphView()
         {
             InitializeComponent();
 
@@ -49,7 +49,7 @@ namespace PaintPanel
             SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
             g = CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            canvas = new Canvas(g, this.BackColor);
+            canvas = new GraphScene(g, this.BackColor);
             canvas.AddDrawingObject(fpsTxt);
             childThread = new Thread(new ThreadStart(Draw));
             childThread.Start();
@@ -90,7 +90,7 @@ namespace PaintPanel
 
         }
 
-        ~PaintPanel()
+        ~GraphView()
         {
             childThread.Abort();
         }

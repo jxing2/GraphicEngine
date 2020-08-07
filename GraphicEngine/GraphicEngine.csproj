@@ -52,8 +52,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Canvas.cs" />
-    <Compile Include="DrawingObject\BaseDrawingObject.cs" />
+    <Compile Include="GraphScene.cs" />
+    <Compile Include="DrawingObject\GraphItem.cs" />
     <Compile Include="DrawingObject\DLine.cs" />
     <Compile Include="DrawingObject\DPath.cs" />
     <Compile Include="DrawingObject\DText.cs" />

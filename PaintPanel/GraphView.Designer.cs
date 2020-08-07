@@ -1,6 +1,6 @@
 ﻿namespace PaintPanel
 {
-    partial class PaintPanel
+    partial class GraphView
     {
         /// <summary>
         /// 必需的设计器变量。
@@ -28,20 +28,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.fpsTimer = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // fpsTimer
-            // 
-            this.fpsTimer.Interval = 25;
-            this.fpsTimer.Tick += new System.EventHandler(this.fpsTimer_Tick);
-            // 
-            // PaintPanel
+            // GraphView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Name = "PaintPanel";
+            this.Name = "GraphView";
             this.Size = new System.Drawing.Size(800, 450);
             this.Load += new System.EventHandler(this.PaintPanel_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintPanel_Paint);
@@ -54,7 +47,5 @@
         }
 
         #endregion
-
-        private System.Windows.Forms.Timer fpsTimer;
     }
 }

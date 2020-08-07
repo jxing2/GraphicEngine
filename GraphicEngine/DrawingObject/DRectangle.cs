@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GraphicEngine.DrawingObject
 {
-    public class DRectangle : BaseDrawingObject
+    public class DRectangle : GraphItem
     {
         [EllipseInterceptor]
         public int Width { get; set; }
@@ -18,13 +18,13 @@ namespace GraphicEngine.DrawingObject
 
         [EllipseInterceptor]
         public int Height { get; set; }
-        
-        public override void Draw(Graphics graphics, Matrix mtx)
+
+        internal override void OnDraw(Graphics graphics, Matrix mtx)
         {
             if (matrix != null && mtx != null)
             {
                 var tmpMatrix = matrix.Clone();
-                tmpMatrix.Multiply(mtx, MatrixOrder.Prepend);
+                tmpMatrix.Multiply(mtx, MatrixOrder.Append);
                 graphics.Transform = tmpMatrix;
             }
             else if (mtx != null)
@@ -50,7 +50,6 @@ namespace GraphicEngine.DrawingObject
             {
                 graphics.FillRectangle(MyBrush, X, Y, Width, Height);
             }
-            graphics.ResetTransform();
         }
 
         public override void DrawOnMove(Point point)

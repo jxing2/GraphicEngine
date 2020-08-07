@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace GraphicEngine.DrawingObject
 {
-    public class DText : BaseDrawingObject
+    public class DText : GraphItem
     {
         public string Words { set; get; }
 
         public Font MyFont { set; get; }
-        public override void Draw(Graphics graphics, Matrix mtx)
+        internal override void OnDraw(Graphics graphics, Matrix mtx)
         {
             if (matrix != null && mtx != null)
             {
                 var tmpMatrix = matrix.Clone();
-                tmpMatrix.Multiply(mtx, MatrixOrder.Prepend);
+                tmpMatrix.Multiply(mtx, MatrixOrder.Append);
                 graphics.Transform = tmpMatrix;
             }
             else if (mtx != null)
@@ -34,7 +34,6 @@ namespace GraphicEngine.DrawingObject
                 MyFont = new Font("宋体", 10F);
             }
             graphics.DrawString(Words, MyFont, MyBrush, X, Y);
-            graphics.ResetTransform();
         }
 
         public override void DrawOnMove(Point point)

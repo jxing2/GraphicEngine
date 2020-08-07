@@ -14,12 +14,12 @@ namespace PaintPanel
             typeof(DRectangle), 
             typeof(DText)
         };
-        public static BaseDrawingObject Create(Type type)
+        public static GraphItem Create(Type type)
         {
             if (classArr.Find((Type t) => type == t) == null) {
                 return null;
             }
-            return Activator.CreateInstance(type) as BaseDrawingObject;
+            return Activator.CreateInstance(type) as GraphItem;
         }
     }
 }

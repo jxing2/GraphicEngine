@@ -47,7 +47,7 @@
             this.bt_txt = new System.Windows.Forms.Button();
             this.bt_rect = new System.Windows.Forms.Button();
             this.bt_ellipse = new System.Windows.Forms.Button();
-            this.paintPanel1 = new PaintPanel.PaintPanel();
+            this.paintPanel1 = new PaintPanel.GraphView();
             this.bt_all_move = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
@@ -334,7 +334,7 @@
         #endregion
 
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private PaintPanel.PaintPanel paintPanel1;
+        private PaintPanel.GraphView paintPanel1;
         private System.Windows.Forms.Button bt_ellipse;
         private System.Windows.Forms.Button bt_rect;
         private System.Windows.Forms.Button bt_txt;

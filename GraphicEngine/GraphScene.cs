@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace GraphicEngine
 {
-    public class Canvas
+    public class GraphScene
     {
         Color ForeColor = Color.White;
         
@@ -26,7 +26,7 @@ namespace GraphicEngine
         public int Width { get; set; }
         public int Height { get; set; }
 
-        public Canvas(Graphics g, Color ForeColor) {
+        public GraphScene(Graphics g, Color ForeColor) {
             this.ForeColor = ForeColor;
             this.g = g;
             Height = 700;
@@ -37,7 +37,7 @@ namespace GraphicEngine
         ArrayList drawingObjects = new ArrayList();
         Queue queue = new Queue();
 
-        public void AddDrawingObject(BaseDrawingObject obj) {
+        public void AddDrawingObject(GraphItem obj) {
             queue.Enqueue(obj);
         }
 
@@ -54,11 +54,14 @@ namespace GraphicEngine
             MoveTmpToNormal();
             
             tmpG.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            foreach (BaseDrawingObject obj in drawingObjects)
+            foreach (GraphItem obj in drawingObjects)
             {
+                var state = tmpG.Save();
                 if (matrix != null)
                     tmpG.Transform = matrix;
-                obj.Draw(tmpG, matrix);
+                //obj.Draw(tmpG, matrix);
+                obj.OnPaint(tmpG, new Rectangle(0, 0, Width, Height), matrix);
+                tmpG.Restore(state);
             }
             
             BufferedGraphicsContext ctx = new BufferedGraphicsContext();
