@@ -38,8 +38,12 @@
             this.Size = new System.Drawing.Size(800, 450);
             this.Load += new System.EventHandler(this.PaintPanel_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.PaintPanel_Paint);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.GraphView_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.GraphView_KeyPress);
+            this.KeyUp += new System.Windows.Forms.KeyEventHandler(this.GraphView_KeyUp);
             this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.PaintPanel_MouseClick);
             this.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.PaintPanel_MouseDoubleClick);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.GraphView_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.PaintPanel_MouseMove);
             this.Resize += new System.EventHandler(this.PaintPanel_Resize);
             this.ResumeLayout(false);

@@ -27,9 +27,9 @@ namespace GraphicEngine.DrawingObject
         /// <param name="graphics"></param>
         internal override void OnDraw(Graphics graphics, Matrix mtx)
         {
-            if (matrix != null && mtx != null)
+            if (Matrix != null && mtx != null)
             {
-                var tmpMatrix = matrix.Clone();
+                var tmpMatrix = Matrix.Clone();
                 tmpMatrix.Multiply(mtx, MatrixOrder.Append);
                 graphics.Transform = tmpMatrix;
             }
@@ -37,9 +37,9 @@ namespace GraphicEngine.DrawingObject
             {
                 graphics.Transform = mtx;
             }
-            else if (matrix != null)
+            else if (Matrix != null)
             {
-                graphics.Transform = matrix;
+                graphics.Transform = Matrix;
             }
             if (MyPath == null) {
                 MyPath = new GraphicsPath();
@@ -105,6 +105,16 @@ namespace GraphicEngine.DrawingObject
         }
 
         public override bool IsContain(Point point)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Move(Point point, Point vector)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override Point GetDiff(Point point)
         {
             throw new NotImplementedException();
         }

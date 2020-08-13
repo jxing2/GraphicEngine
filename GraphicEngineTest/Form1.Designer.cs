@@ -29,13 +29,18 @@
         private void InitializeComponent()
         {
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.bt_all_move = new System.Windows.Forms.Button();
+            this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tb_rotate_y = new System.Windows.Forms.TextBox();
             this.tb_rotate_x = new System.Windows.Forms.TextBox();
             this.bt_scale = new System.Windows.Forms.Button();
+            this.tb_all_move_x = new System.Windows.Forms.TextBox();
+            this.tb_all_move_y = new System.Windows.Forms.TextBox();
             this.tb_scale_x = new System.Windows.Forms.TextBox();
             this.tb_scale_y = new System.Windows.Forms.TextBox();
             this.bt_rotate = new System.Windows.Forms.Button();
@@ -48,11 +53,6 @@
             this.bt_rect = new System.Windows.Forms.Button();
             this.bt_ellipse = new System.Windows.Forms.Button();
             this.paintPanel1 = new PaintPanel.GraphView();
-            this.bt_all_move = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.tb_all_move_x = new System.Windows.Forms.TextBox();
-            this.tb_all_move_y = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -98,6 +98,25 @@
             this.splitContainer1.SplitterDistance = 298;
             this.splitContainer1.TabIndex = 0;
             // 
+            // bt_all_move
+            // 
+            this.bt_all_move.Location = new System.Drawing.Point(209, 496);
+            this.bt_all_move.Name = "bt_all_move";
+            this.bt_all_move.Size = new System.Drawing.Size(75, 23);
+            this.bt_all_move.TabIndex = 15;
+            this.bt_all_move.Text = "Move";
+            this.bt_all_move.UseVisualStyleBackColor = true;
+            this.bt_all_move.Click += new System.EventHandler(this.bt_all_move_Click);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(115, 501);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(17, 12);
+            this.label6.TabIndex = 14;
+            this.label6.Text = "Y:";
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -115,6 +134,15 @@
             this.label2.Size = new System.Drawing.Size(17, 12);
             this.label2.TabIndex = 14;
             this.label2.Text = "Y:";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(10, 501);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(17, 12);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "X:";
             // 
             // label3
             // 
@@ -160,6 +188,22 @@
             this.bt_scale.UseVisualStyleBackColor = true;
             this.bt_scale.Click += new System.EventHandler(this.bt_scale_Click);
             // 
+            // tb_all_move_x
+            // 
+            this.tb_all_move_x.Location = new System.Drawing.Point(38, 498);
+            this.tb_all_move_x.Name = "tb_all_move_x";
+            this.tb_all_move_x.Size = new System.Drawing.Size(65, 21);
+            this.tb_all_move_x.TabIndex = 10;
+            this.tb_all_move_x.Text = "20";
+            // 
+            // tb_all_move_y
+            // 
+            this.tb_all_move_y.Location = new System.Drawing.Point(138, 498);
+            this.tb_all_move_y.Name = "tb_all_move_y";
+            this.tb_all_move_y.Size = new System.Drawing.Size(65, 21);
+            this.tb_all_move_y.TabIndex = 10;
+            this.tb_all_move_y.Text = "20";
+            // 
             // tb_scale_x
             // 
             this.tb_scale_x.Location = new System.Drawing.Point(38, 450);
@@ -192,7 +236,7 @@
             this.tb_rotate.Name = "tb_rotate";
             this.tb_rotate.Size = new System.Drawing.Size(78, 21);
             this.tb_rotate.TabIndex = 8;
-            this.tb_rotate.Text = "0";
+            this.tb_rotate.Text = "10";
             // 
             // bt_path
             // 
@@ -269,50 +313,6 @@
             this.paintPanel1.Size = new System.Drawing.Size(1003, 640);
             this.paintPanel1.TabIndex = 0;
             this.paintPanel1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.paintPanel1_MouseClick);
-            // 
-            // bt_all_move
-            // 
-            this.bt_all_move.Location = new System.Drawing.Point(209, 496);
-            this.bt_all_move.Name = "bt_all_move";
-            this.bt_all_move.Size = new System.Drawing.Size(75, 23);
-            this.bt_all_move.TabIndex = 15;
-            this.bt_all_move.Text = "Move";
-            this.bt_all_move.UseVisualStyleBackColor = true;
-            this.bt_all_move.Click += new System.EventHandler(this.bt_all_move_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(10, 501);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(17, 12);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "X:";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(115, 501);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(17, 12);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Y:";
-            // 
-            // tb_all_move_x
-            // 
-            this.tb_all_move_x.Location = new System.Drawing.Point(38, 498);
-            this.tb_all_move_x.Name = "tb_all_move_x";
-            this.tb_all_move_x.Size = new System.Drawing.Size(65, 21);
-            this.tb_all_move_x.TabIndex = 10;
-            this.tb_all_move_x.Text = "20";
-            // 
-            // tb_all_move_y
-            // 
-            this.tb_all_move_y.Location = new System.Drawing.Point(138, 498);
-            this.tb_all_move_y.Name = "tb_all_move_y";
-            this.tb_all_move_y.Size = new System.Drawing.Size(65, 21);
-            this.tb_all_move_y.TabIndex = 10;
-            this.tb_all_move_y.Text = "20";
             // 
             // Form1
             // 

@@ -22,6 +22,7 @@ namespace GraphicEngine
         BufferedGraphics graphBuffer;
         Bitmap bitmap;
         public Matrix matrix ;
+        GraphItem root = new DBaseObject();
 
         public int Width { get; set; }
         public int Height { get; set; }
@@ -32,6 +33,7 @@ namespace GraphicEngine
             Height = 700;
             Width = 700;
             bitmap = new Bitmap(Width, Height);
+            root.Children = new ArrayList();
         }
 
         ArrayList drawingObjects = new ArrayList();
@@ -44,32 +46,30 @@ namespace GraphicEngine
         public void MoveTmpToNormal() {
             while (queue.Count > 0)
             {
-                drawingObjects.Add(queue.Dequeue());
+                root.Children.Add(queue.Dequeue());
             }
         }
+
+
+        
 
         public void Draw() {
             var tmpG = Graphics.FromImage(bitmap);
             tmpG.Clear(ForeColor);
             MoveTmpToNormal();
             
-            tmpG.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            foreach (GraphItem obj in drawingObjects)
+            tmpG.SmoothingMode = SmoothingMode.AntiAlias;
+            foreach (GraphItem obj in root.Children)
             {
                 var state = tmpG.Save();
-                if (matrix != null)
-                    tmpG.Transform = matrix;
-                //obj.Draw(tmpG, matrix);
                 obj.OnPaint(tmpG, new Rectangle(0, 0, Width, Height), matrix);
                 tmpG.Restore(state);
             }
-            
+            if (matrix != null)
+                matrix.Reset();
             BufferedGraphicsContext ctx = new BufferedGraphicsContext();
             BufferedGraphics graphBuffer = ctx.Allocate(g, new Rectangle(0, 0, Width, Height));
             Graphics diaplayGraphic = graphBuffer.Graphics;
-            //diaplayGraphic.Clear(ForeColor);
-            //if (matrix != null)
-            //    diaplayGraphic.Transform = matrix;
             diaplayGraphic.Clear(ForeColor);
             diaplayGraphic.DrawImage(bitmap, 0, 0);
             
@@ -85,6 +85,12 @@ namespace GraphicEngine
             this.Width = width;
             this.Height = height;
             bitmap = new Bitmap(this.Width, this.Height);
+        }
+
+        public GraphItem SelectObject(int x, int y)
+        {
+            Point point = new Point(x, y);
+            return GraphItem.Select(point, root);
         }
     }
 }

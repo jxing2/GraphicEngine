@@ -14,13 +14,15 @@ using System.Runtime.InteropServices;
 using System.Diagnostics;
 using System.IO;
 using System.Drawing.Drawing2D;
+using System.Security.Cryptography;
 
 namespace PaintPanel
 {
     public partial class GraphView : UserControl
     {
-        GraphScene canvas = null;
+        GraphScene scene = null;
         GraphItem currentDrawingObj = null;
+        GraphItem currentSelectedObj = null;
         DText fpsTxt = new DText
         {
             MyFont = new Font("宋体", 10F),
@@ -49,8 +51,8 @@ namespace PaintPanel
             SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
             g = CreateGraphics();
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            canvas = new GraphScene(g, this.BackColor);
-            canvas.AddDrawingObject(fpsTxt);
+            scene = new GraphScene(g, this.BackColor);
+            scene.AddDrawingObject(fpsTxt);
             childThread = new Thread(new ThreadStart(Draw));
             childThread.Start();
         }
@@ -74,7 +76,7 @@ namespace PaintPanel
                         beforeDT = now;
                         //CollectGarbage();
                     }
-                    canvas.Draw();
+                    scene.Draw();
                     Thread.Sleep(10);
                 }
             }
@@ -104,37 +106,54 @@ namespace PaintPanel
 
         private void PaintPanel_MouseClick(object sender, MouseEventArgs e)
         {
+            
             Matrix matrix = new Matrix();
-            if (canvas.matrix != null)
+            Point[] points = new Point[1];
+            points[0] = new Point(e.X, e.Y);
+            if (scene.matrix != null)
             {
-                matrix = canvas.matrix.Clone();
-                if (matrix.IsInvertible)
-                    matrix.Invert();
+                matrix = scene.matrix.Clone();
+                //if (matrix.IsInvertible) 
+                    //matrix.Invert();
             }
+            //matrix.TransformPoints(points);
+            //MessageBox.Show("point[0] : " + points[0].X + "," + points[0].Y + ", E : " + e.X + "," + e.Y);
             if (e.Button == MouseButtons.Left)
             {
+                if (inputTmp == null && currentDrawingObj == null) {
+                    if (currentSelectedObj != null)
+                    {
+                        currentSelectedObj.Selected = false;
+                    }
+                    currentSelectedObj = scene.SelectObject(points[0].X, points[0].Y);
+                    if (currentSelectedObj != null)
+                    {
+                        currentSelectedObj.Selected = true;
+                    }
+                }
                 if (currentDrawingObj == null && inputTmp != null)
                 {
-                    inputTmp.X = e.X;
-                    inputTmp.Y = e.Y;
-                    inputTmp.matrix = matrix;
-                    canvas.AddDrawingObject(inputTmp);
+                    inputTmp.X = points[0].X;
+                    inputTmp.Y = points[0].Y;
+                    //inputTmp.matrix = matrix;
+                    scene.AddDrawingObject(inputTmp);
                     currentDrawingObj = inputTmp;
                     inputTmp = null;
                 }
                 else if (currentDrawingObj is DPath)
                 {
-                    ((DPath)currentDrawingObj).ConfirmPoint(new Point(e.X, e.Y));
+                    ((DPath)currentDrawingObj).ConfirmPoint(new Point(points[0].X, points[0].Y));
                 }
                 else
                 {
                     currentDrawingObj = null;
                 }
-            }else if (e.Button == MouseButtons.Right)
+            }
+            else if (e.Button == MouseButtons.Right)
             {
                 if (currentDrawingObj is DPath)
                 {
-                    ((DPath) currentDrawingObj).ConfirmPoint(new Point(e.X, e.Y));
+                    ((DPath) currentDrawingObj).ConfirmPoint(new Point(points[0].X, points[0].Y));
                     currentDrawingObj = null;
                 }
             }
@@ -145,6 +164,9 @@ namespace PaintPanel
             if (currentDrawingObj != null)
             {
                 currentDrawingObj.DrawOnMove(e.Location);
+            }
+            if (currentSelectedObj != null && currentSelectedObj.Selected && e.Button == MouseButtons.Left) {
+                currentSelectedObj.Move(e.Location, diff);
             }
         }
 
@@ -165,16 +187,53 @@ namespace PaintPanel
 
         public void SetMatrix(Matrix matrix)
         {
-            canvas.matrix = matrix;
+            scene.matrix = matrix;
         }
         public Matrix GetMatrix()
         {
-            return canvas.matrix;
+            if (scene.matrix == null)
+                scene.matrix = new Matrix();
+            return scene.matrix;
         }
-
+        
         private void PaintPanel_Resize(object sender, EventArgs e)
         {
-            canvas.Resize(this.Width, this.Height);
+            scene.Resize(this.Width, this.Height);
+        }
+
+        private void GraphView_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        private void GraphView_KeyDown(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void GraphView_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+        Point diff = new Point();
+        private void GraphView_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                if (inputTmp == null && currentDrawingObj == null)
+                {
+                    if (currentSelectedObj != null)
+                    {
+                        currentSelectedObj.Selected = false;
+                    }
+                    currentSelectedObj = scene.SelectObject(e.X, e.Y);
+                    if (currentSelectedObj != null)
+                    {
+                        currentSelectedObj.Selected = true;
+                        diff = currentSelectedObj.GetDiff(e.Location);
+                    }
+                }
+            }
         }
     }
 }

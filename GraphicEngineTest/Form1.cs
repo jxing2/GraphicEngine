@@ -123,7 +123,7 @@ namespace GraphicEngineTest
             float scale_y = int.Parse(scale_y_str);
             var matrix = paintPanel1.GetMatrix();
             if (matrix == null)
-                matrix = new System.Drawing.Drawing2D.Matrix();
+                matrix = new Matrix();
             matrix.Scale(scale_x/100, scale_y/100);
             paintPanel1.SetMatrix(matrix);
         }
@@ -137,17 +137,8 @@ namespace GraphicEngineTest
             var newM = new Matrix();
             newM.Translate(move_x, move_y);
             var matrix = paintPanel1.GetMatrix().Clone();
-            var matrix1 = paintPanel1.GetMatrix().Clone();
-            if (matrix == null)
-            {
-                matrix = new Matrix();
-                matrix1 = new Matrix();
-            }
-            matrix.Invert();
-            newM.Multiply(matrix, MatrixOrder.Prepend);
-            matrix1.Multiply(newM);
-            //matrix.Multiply(newM, MatrixOrder.Prepend);
-            paintPanel1.SetMatrix(newM);
+            matrix.Multiply(newM, MatrixOrder.Append);
+            paintPanel1.SetMatrix(matrix);
         }
     }
 }
