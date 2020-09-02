@@ -1,4 +1,5 @@
 ﻿using GraphicEngine;
+using GraphicEngine.Command;
 using GraphicEngine.DrawingObject;
 using System;
 using System.Collections.Generic;
@@ -36,14 +37,17 @@ namespace GraphicEngineTest
                 //X = e.Location.X,
                 //Y = e.Location.Y,
                 Width = 20,
-                Height = 20
+                Height = 20,
+                Selectable = true
             };
-            paintPanel1.inputTmp = ellipse;
+            CommandAdd add = new CommandAdd();
+            add.item = ellipse;
+            paintPanel1.SetCommand(add);
         }
 
         private void bt_select_Click(object sender, EventArgs e)
         {
-            paintPanel1.inputTmp = null;
+            paintPanel1.SetCommand(null);
         }
 
         private void bt_rect_Click(object sender, EventArgs e)
@@ -54,9 +58,12 @@ namespace GraphicEngineTest
                 //X = e.Location.X,
                 //Y = e.Location.Y,
                 Width = 20,
-                Height = 20
+                Height = 20,
+                Selectable = true
             };
-            paintPanel1.inputTmp = rect;
+            CommandAdd add = new CommandAdd();
+            add.item = rect;
+            paintPanel1.SetCommand(add);
         }
 
         private void paintPanel1_MouseClick(object sender, MouseEventArgs e)
@@ -71,33 +78,42 @@ namespace GraphicEngineTest
             DText txt = new DText
             {
                 MyBrush = new SolidBrush(Color.FromArgb(128, Color.DarkOrchid)),
-                Words = tb_txt.Text
+                Words = tb_txt.Text,
+                Selectable = true
                 //X = e.Location.X,
                 //Y = e.Location.Y,
             };
-            paintPanel1.inputTmp = txt;
+            CommandAdd add = new CommandAdd();
+            add.item = txt;
+            paintPanel1.SetCommand(add);
         }
 
         private void bt_line_Click(object sender, EventArgs e)
         {
-            DLine txt = new DLine
+            DLine line = new DLine
             {
-                MyBrush = new SolidBrush(Color.FromArgb(128, Color.DarkOrchid))
+                MyBrush = new SolidBrush(Color.FromArgb(128, Color.DarkOrchid)),
+                Selectable = true
                 //X = e.Location.X,
                 //Y = e.Location.Y,
             };
-            paintPanel1.inputTmp = txt;
+            CommandAdd add = new CommandAdd();
+            add.item = line;
+            paintPanel1.SetCommand(add);
         }
 
         private void bt_path_Click(object sender, EventArgs e)
         {
             DPath path = new DPath
             {
-                MyBrush = new SolidBrush(Color.FromArgb(128, Color.DarkOrchid))
+                MyBrush = new SolidBrush(Color.FromArgb(128, Color.DarkOrchid)),
+                Selectable = true
                 //X = e.Location.X,
                 //Y = e.Location.Y,
             };
-            paintPanel1.inputTmp = path;
+            CommandAdd add = new CommandAdd();
+            add.item = path;
+            paintPanel1.SetCommand(add);
         }
 
         private void bt_rotate_Click(object sender, EventArgs e)

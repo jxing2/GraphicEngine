@@ -12,6 +12,9 @@ namespace GraphicEngine.DrawingObject
     public abstract class GraphItem
     {
         public ArrayList Children { get; set; }
+
+        public HashSet<GraphItem> ToBeDeleteChildren { get; set; }
+        public GraphItem Parent { get; set; }
         public int X { get; set; }
         public int Y { get; set; }
         public const int CAP_SIZE = 6;
@@ -20,6 +23,7 @@ namespace GraphicEngine.DrawingObject
         public int Z { get; set; }
 
         public bool Selected { get; set; }
+        public bool Selectable { get; set; }
 
         public Matrix Matrix { get; set; }
 
@@ -62,10 +66,26 @@ namespace GraphicEngine.DrawingObject
             OnDraw(graphics, mtx);
             if (Children == null)
                 return;
-            foreach (GraphItem gi in Children) {
-                var state = graphics.Save();
-                gi.OnPaint(graphics, rect, mtx);
-                graphics.Restore(state);
+            //foreach (GraphItem gi in Children) {
+            //    var state = graphics.Save();
+            //    gi.OnPaint(graphics, rect, mtx);
+            //    graphics.Restore(state);
+            //}
+            for(int i = Children.Count - 1; i > -1; --i)
+            {
+                if(ToBeDeleteChildren.Count > 0)
+                {
+                    if (ToBeDeleteChildren.Contains(Children[i]))
+                    {
+                        Children.RemoveAt(i);
+                    }
+                }
+                else
+                {
+                    var state = graphics.Save();
+                    (Children[i] as GraphItem).OnPaint(graphics, rect, mtx);
+                    graphics.Restore(state);
+                }
             }
         }
 
@@ -86,6 +106,14 @@ namespace GraphicEngine.DrawingObject
                 }
             }
             return null;
+        }
+
+        public void DeleteChildrenOnPaint(GraphItem child)
+        {
+            lock (ToBeDeleteChildren)
+            {
+                ToBeDeleteChildren.Add(child);
+            }
         }
 
 

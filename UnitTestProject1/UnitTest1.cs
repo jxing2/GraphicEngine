@@ -1,6 +1,12 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Drawing.Printing;
+using System.Threading;
+using GraphicEngine.DrawingObject;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProject1
@@ -82,6 +88,86 @@ namespace UnitTestProject1
             matrix.Rotate(1);
             Console.WriteLine(matrix.IsIdentity);
             //Console.WriteLine(res);
+        }
+
+        Queue queue = new Queue(2000000);
+        ArrayList list = new ArrayList();
+        int count = 20000;
+        //List<int> list = new List<int>();
+        public void ForeachTask()
+        {
+            try
+            {
+                //while (true)
+                //{
+                //    //lock (list)
+                //    //{
+                //    //    foreach (Object item in list)
+                //    //    {
+                //    //        if (item.ToString().Equals("0"))
+                //    //            continue;
+                //    //        Console.WriteLine(item);
+                //    //    }
+                //    //}
+                //    if (list.Count == 30)
+                //        break;
+                //}
+
+                for(int i = 0; i < count; ++i)
+                {
+                    if (i % 2 == 0)
+                        queue.Enqueue(i);
+                }
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        public void AddTask()
+        {
+            try
+            {
+                //int i = 100000;
+                for (int i = 0; i < count; ++i)
+                {
+                    if (i % 2 == 1)
+                        queue.Enqueue(i);
+                    //Thread.Sleep(1);
+                }
+            }catch(Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        [TestMethod]
+        public void TestThreadSafe()
+        {
+            ThreadStart ts1 = new ThreadStart(ForeachTask);
+            ThreadStart ts2 = new ThreadStart(AddTask);
+            Thread thread1 = new Thread(ts1);
+            Thread thread2 = new Thread(ts2);
+            thread1.Start();
+            thread2.Start();
+            thread1.Join();
+            thread2.Join();
+            Console.WriteLine(queue.Count);
+        }
+
+
+        [TestMethod]
+        public void TestObjectSet()
+        {
+            HashSet<GraphItem> set1 = new HashSet<GraphItem>();
+            GraphItem item1 = new DLine();
+            GraphItem item2 = new DLine();
+            set1.Add(item2);
+            set1.Add(item1);
+            if (set1.Contains(item2))
+            {
+                Console.WriteLine("Contains");
+            }
         }
     }
 }

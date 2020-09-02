@@ -96,6 +96,10 @@ namespace GraphicEngine.DrawingObject
 
         public override bool IsContain(Point point)
         {
+            if (!Selectable)
+            {
+                return false;
+            }
             ClickPoint[0] = point;
             TransformPoint(ClickPoint);
             double res = GetMinDistance(X, Y, X2, Y2, ClickPoint[0]);

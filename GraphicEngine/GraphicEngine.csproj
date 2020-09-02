@@ -53,7 +53,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Command\Command.cs" />
+    <Compile Include="Command\CommandAdd.cs" />
     <Compile Include="DrawingObject\DBaseObject.cs" />
+    <Compile Include="GraphicCanvas\GraphicCanvas.cs" />
     <Compile Include="GraphScene.cs" />
     <Compile Include="DrawingObject\GraphItem.cs" />
     <Compile Include="DrawingObject\DLine.cs" />

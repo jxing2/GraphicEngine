@@ -55,6 +55,7 @@ namespace GraphicEngine.DrawingObject
             }
             else
             {
+                
                 if (pointArr.Length == 2)
                 {
                     if (MyPen == null)

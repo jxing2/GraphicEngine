@@ -43,21 +43,26 @@ namespace GraphicEngine
             queue.Enqueue(obj);
         }
 
-        public void MoveTmpToNormal() {
-            while (queue.Count > 0)
+        private void MoveTmpToNormal() {
+            if(queue.Count > 0)
             {
-                root.Children.Add(queue.Dequeue());
+                lock (queue)
+                {
+                    while (queue.Count > 0)
+                    {
+                        GraphItem item = (GraphItem)queue.Dequeue();
+                        item.Parent = root;
+                        root.Children.Add(item);
+                    }
+                }
             }
         }
 
-
-        
 
         public void Draw() {
             var tmpG = Graphics.FromImage(bitmap);
             tmpG.Clear(ForeColor);
             MoveTmpToNormal();
-            
             tmpG.SmoothingMode = SmoothingMode.AntiAlias;
             foreach (GraphItem obj in root.Children)
             {

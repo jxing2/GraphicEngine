@@ -15,14 +15,17 @@ using System.Diagnostics;
 using System.IO;
 using System.Drawing.Drawing2D;
 using System.Security.Cryptography;
+using GraphicEngine.Command;
 
 namespace PaintPanel
 {
     public partial class GraphView : UserControl
     {
         GraphScene scene = null;
-        GraphItem currentDrawingObj = null;
-        GraphItem currentSelectedObj = null;
+        private Command command = null;
+        //GraphItem currentDrawingObj = null;
+        List<GraphItem> currentSelectedObjArr = new List<GraphItem>();
+        volatile bool isCTRLPressed = false;
         DText fpsTxt = new DText
         {
             MyFont = new Font("宋体", 10F),
@@ -32,9 +35,8 @@ namespace PaintPanel
         };
         Graphics g = null;
         Thread childThread = null;
-        //volatile int fps = 0;
-
-        public GraphItem inputTmp = null;
+        private bool firstStepDone = false;
+        private bool finishedStep = false;
 
         [DllImport("psapi.dll")]
         private static extern int EmptyWorkingSet(int hProcess);
@@ -42,11 +44,6 @@ namespace PaintPanel
         public GraphView()
         {
             InitializeComponent();
-
-            //this.SetStyle(ControlStyles.UserPaint, true);
-            //this.SetStyle(ControlStyles.AllPaintingInWmPaint, true);
-            //this.SetStyle(ControlStyles.DoubleBuffer, true);
-            //this.SetStyle(ControlStyles.OptimizedDoubleBuffer, true);
 
             SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint, true);
             g = CreateGraphics();
@@ -69,12 +66,9 @@ namespace PaintPanel
                     DateTime now = DateTime.Now;
                     if (now.Subtract(beforeDT).TotalMilliseconds >= 1000)
                     {
-                        //fps = tick;
-                        //lb_fps.Text = tick.ToString();
                         fpsTxt.Words = String.Format("FPS : {0}", tick);
                         tick = 0;
                         beforeDT = now;
-                        //CollectGarbage();
                     }
                     scene.Draw();
                     Thread.Sleep(10);
@@ -106,68 +100,82 @@ namespace PaintPanel
 
         private void PaintPanel_MouseClick(object sender, MouseEventArgs e)
         {
-            
+
             Matrix matrix = new Matrix();
             Point[] points = new Point[1];
             points[0] = new Point(e.X, e.Y);
             if (scene.matrix != null)
             {
                 matrix = scene.matrix.Clone();
-                //if (matrix.IsInvertible) 
-                    //matrix.Invert();
             }
-            //matrix.TransformPoints(points);
-            //MessageBox.Show("point[0] : " + points[0].X + "," + points[0].Y + ", E : " + e.X + "," + e.Y);
             if (e.Button == MouseButtons.Left)
             {
-                if (inputTmp == null && currentDrawingObj == null) {
+                if (command == null)
+                {
+                    var currentSelectedObj = scene.SelectObject(points[0].X, points[0].Y);
                     if (currentSelectedObj != null)
                     {
-                        currentSelectedObj.Selected = false;
+                        AddSelectedItem(currentSelectedObj);
                     }
-                    currentSelectedObj = scene.SelectObject(points[0].X, points[0].Y);
-                    if (currentSelectedObj != null)
+                    return;
+                }
+                if (command is CommandAdd)
+                {
+                    CommandAdd addCommand = command as CommandAdd;
+                    if (addCommand.item != null)
                     {
-                        currentSelectedObj.Selected = true;
+                        if (!firstStepDone) // 第一次画
+                        {
+                            addCommand.item.X = e.X;
+                            addCommand.item.Y = e.Y;
+                            firstStepDone = true;
+                            scene.AddDrawingObject(addCommand.item);
+                        }
+                        else
+                        {
+                            if (addCommand.item is DPath)
+                            {
+                                ((DPath)addCommand.item).ConfirmPoint(new Point(points[0].X, points[0].Y));
+                                
+                            }else if(addCommand.item is DLine)
+                            {
+                                ((DLine)addCommand.item).X2 = points[0].X;
+                                ((DLine)addCommand.item).Y2 = points[0].Y;
+                                command = null;
+                                finishedStep = true;
+                            }
+                        }
                     }
-                }
-                if (currentDrawingObj == null && inputTmp != null)
-                {
-                    inputTmp.X = points[0].X;
-                    inputTmp.Y = points[0].Y;
-                    //inputTmp.matrix = matrix;
-                    scene.AddDrawingObject(inputTmp);
-                    currentDrawingObj = inputTmp;
-                    inputTmp = null;
-                }
-                else if (currentDrawingObj is DPath)
-                {
-                    ((DPath)currentDrawingObj).ConfirmPoint(new Point(points[0].X, points[0].Y));
-                }
-                else
-                {
-                    currentDrawingObj = null;
                 }
             }
             else if (e.Button == MouseButtons.Right)
             {
-                if (currentDrawingObj is DPath)
+                if (command is CommandAdd)
                 {
-                    ((DPath) currentDrawingObj).ConfirmPoint(new Point(points[0].X, points[0].Y));
-                    currentDrawingObj = null;
+                    CommandAdd addCommand = command as CommandAdd;
+                    if (addCommand.item != null)
+                    {
+                        if (addCommand.item is DPath)
+                        {
+                            ((DPath)addCommand.item).ConfirmPoint(new Point(points[0].X, points[0].Y));
+                            command = null;
+                            finishedStep = true;
+                        }
+                    }
                 }
             }
         }
 
         private void PaintPanel_MouseMove(object sender, MouseEventArgs e)
         {
-            if (currentDrawingObj != null)
+            if (command != null && command is CommandAdd && firstStepDone)
             {
-                currentDrawingObj.DrawOnMove(e.Location);
+                var tmpCommand = command as CommandAdd;
+                tmpCommand.item.DrawOnMove(e.Location);
             }
-            if (currentSelectedObj != null && currentSelectedObj.Selected && e.Button == MouseButtons.Left) {
-                currentSelectedObj.Move(e.Location, diff);
-            }
+            //if (currentSelectedObj != null && currentSelectedObj.Selected && e.Button == MouseButtons.Left) {
+            //    currentSelectedObj.Move(e.Location, diff);
+            //}
         }
 
         private void PaintPanel_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -195,7 +203,7 @@ namespace PaintPanel
                 scene.matrix = new Matrix();
             return scene.matrix;
         }
-        
+
         private void PaintPanel_Resize(object sender, EventArgs e)
         {
             scene.Resize(this.Width, this.Height);
@@ -218,22 +226,42 @@ namespace PaintPanel
         Point diff = new Point();
         private void GraphView_MouseDown(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left || e.Button == MouseButtons.Right)
             {
-                if (inputTmp == null && currentDrawingObj == null)
+                if (command == null)
                 {
+                    var currentSelectedObj = scene.SelectObject(e.X, e.Y);
                     if (currentSelectedObj != null)
                     {
-                        currentSelectedObj.Selected = false;
+                        AddSelectedItem(currentSelectedObj);
                     }
-                    currentSelectedObj = scene.SelectObject(e.X, e.Y);
-                    if (currentSelectedObj != null)
-                    {
-                        currentSelectedObj.Selected = true;
-                        diff = currentSelectedObj.GetDiff(e.Location);
-                    }
+                    return;
                 }
             }
+        }
+
+        public void AddSelectedItem(GraphItem item)
+        {
+            if (!isCTRLPressed)
+            {
+                currentSelectedObjArr.ForEach(it => it.Selected = false);
+                currentSelectedObjArr.Clear();
+            }
+            currentSelectedObjArr.Add(item);
+            item.Selected = true;
+        }
+
+        public void SetCommand(Command command)
+        {
+            // 如果完成了当前图形的绘制操作
+            if (firstStepDone && !finishedStep && command != null && command is CommandAdd)
+            {
+                var tmpCmd = (command as CommandAdd);
+                tmpCmd.item.Parent.Children.Remove(tmpCmd.item);
+            }
+            firstStepDone = false;
+            finishedStep = false;
+            this.command = command;
         }
     }
 }
